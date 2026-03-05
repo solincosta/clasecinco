@@ -4,6 +4,7 @@
         <div class="referencia">{{ referencia }}</div>
         <span v-if="disponibilidad" class="status green">DISPONIBLE</span>
         <span v-else class="status red"> NO DISPONIBLE</span>
+        <div class="referencia">{{ precio }}</div>
     </section>
 </template>
 
@@ -14,7 +15,8 @@ export default {
         imagen: String,
         referencia: String,
         disponibilidad: Boolean,
-        mostrar: Boolean
+        mostrar: Boolean,
+        precio: Number
     }
 }
 </script>
@@ -35,7 +37,7 @@ export default {
 
 .referencia {
     width: 100%;
-    height: 15%;
+    height: 10%;
     background-color: #000;
     color: white;
     display: flex;
@@ -47,7 +49,7 @@ export default {
 
 .status {
     width: 100%;
-    height: 15%;
+    height: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
