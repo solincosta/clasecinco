@@ -3,9 +3,9 @@
     <h1 class="logo">LOGO</h1>
 
     <ul class="items">
-        <li class="item">INICIO</li>
-        <li class="item">COMPRAS</li>
-        <li class="item">COTIZACION</li>
+        <li @click="$router.push('/')" class="item">INICIO</li>
+        <li @click="goTo()" class="item">COMPRAS</li>
+        <li @click="$router.push('/cotizar')" class="item">COTIZACION</li>
         <li class="item">CONTACTO</li>
     </ul>
   </menu>
@@ -13,7 +13,17 @@
 
 <script>
 export default {
-    name: "MenuComponent"
+    name: "MenuComponent",
+    data(){
+        return{
+
+        };
+    },
+    methods:{
+        goTo: function(){
+            this.$router.push('/about')
+        }
+    }
 }
 </script>
 
