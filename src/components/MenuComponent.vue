@@ -1,63 +1,65 @@
 <template>
-  <menu class="menu">
-    <h1 class="logo">LOGO</h1>
+    <header class="menu open-sans-menu">
+        <img class="logo" src="../assets/logo-c-recorte.png" alt="">
 
-    <ul class="items">
-        <li @click="$router.push('/')" class="item">INICIO</li>
-        <li @click="goTo()" class="item">COMPRAS</li>
-        <li @click="$router.push('/cotizar')" class="item">COTIZACION</li>
-        <li class="item">CONTACTO</li>
-    </ul>
-  </menu>
+        <nav class="navbar-main">
+            <li class="nav-item">INICIO</li>
+            <li class="nav-item">OFERTA EDUCATIVA</li>
+            <li class="nav-item">INSCRIPCION</li>
+            <li class="nav-item">PORTAL</li>
+            <li class="nav-item">DOCENTES</li>
+        </nav>
+    </header>
 </template>
 
 <script>
 export default {
-    name: "MenuComponent",
-    data(){
-        return{
-
-        };
-    },
-    methods:{
-        goTo: function(){
-            this.$router.push('/about')
-        }
-    }
+    name: "MenuComponent"
 }
 </script>
 
 <style scoped>
-.menu{
-    height: 80px;
+.menu {
     width: 100%;
-    background: #000;
-    font-family: sans-serif;
-    color: #FFF;
+    height: 80px;
+    background-color: #ED3237;
     display: flex;
-    /* justify-content: space-between; */
-    padding: 0 1rem;
-    align-items: center;
-    border-bottom: #FFF 1px solid;
+    justify-content: space-between;
+    border-bottom: 1px #FFF solid;
 }
 
-.logo{
-    width: 30%;
+.logo {
+
+    height: 100%;
+    margin: 0 2rem;
 }
 
-.items{
+.navbar-main {
     display: flex;
-    height: 40px;
+    justify-content: center;
+    height: 100%;
+    width: 80%;
+
+}
+
+.nav-item {
+    list-style: none;
+    width: 15%;
+    display: flex;
     justify-content: center;
     align-items: center;
-    width: 70%;
-    gap: 2rem;
+    color: aliceblue;
 }
 
-.item{
-    list-style: none;
-    border: solid #FFF 1px;
-    padding: 1rem;
+.nav-item:hover {
+    background-color: #000;
     cursor: pointer;
+}
+
+.open-sans-menu {
+    font-family: "Red Hat Display", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
 }
 </style>

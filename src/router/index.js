@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import InicioView from '../views/InicioView.vue'
 import AboutView from '../views/AboutView.vue'
 import CotizaView from '../views/CotizaView.vue'
+import CursoView from '../views/CursoView.vue'
 
 const routes = [
   {
@@ -21,6 +22,12 @@ const routes = [
     name: 'about',
     component: AboutView
   },
+  {
+    path: '/cursos/:id',
+    name: 'CursoView',
+    component: CursoView
+  },
+
   {
     path: '/cotizar',
     name: 'cotizar',

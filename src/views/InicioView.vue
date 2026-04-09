@@ -1,7 +1,10 @@
 <template>
     <main>
         <menu-component></menu-component>
-        <img width="100%" height="500px"
+        <banner-component></banner-component>
+        <CardComponentTwo></CardComponentTwo>
+
+        <!-- <img width="100%" height="500px"
             src="https://www.toyotacredito.com.co/sites/default/files/2026-02/Banner-Web---Yaris-FEB.jpg" alt="">
 
         <div class="precio-container">
@@ -13,15 +16,18 @@
             <card-component v-show="preciocarro > carro.precio" v-for="carro in carros" :key="carro.id" :imagen="carro.imagen"
                 :referencia="carro.referencia" :disponibilidad="carro.disponible" :mostrar="carro.mostrar" :precio="carro.precio">
             </card-component>
-        </section>
+        </section> -->
 
     </main>
 </template>
 
 <script>
-import CardComponent from '@/components/CardComponent.vue'
+import BannerComponent from '@/components/BannerComponent.vue';
+//import CardComponent from '@/components/CardComponent.vue'
+import MenuComponent from '@/components/MenuComponent.vue';
+import CardComponentTwo from '@/components/CardComponentTwo.vue';
 export default {
-    components: { CardComponent },
+    components: {  BannerComponent, MenuComponent, CardComponentTwo },
     data() {
         return {
             preciocarro: 0,
