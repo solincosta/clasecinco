@@ -1,21 +1,78 @@
 <template>
-    <div class="content-courses">
-        <!-- <div class="card open-sans-card" v-for="curso in courses" :key="curso.id">
-            <img class="image-card" :src="curso.imageCourse" alt="">
-            <h3 class="name-course">{{ curso.nombre }}</h3>
-            <div class="detail-course">
-                <span> {{ curso.jornada }} </span><span> {{ curso.duracion }} </span>
-            </div>
-            <div class="content-card-button">
+    <!-- <div class="content-courses"> -->
+    <div>
 
-                <button class="button-course open-sans-button-card" @click="verCurso(curso)">
-                    Mas Información
-                </button>
-            </div>
+        <DataTable v-show="onLoading" :value="skeleton" tableStyle="min-width: 50rem">
+            <ColumnTable field="id" header="ID">
+                <template #body>
+                    <SkeletonComponent />
+                </template>
 
-        </div> -->
+            </ColumnTable>
+            <ColumnTable field="nombre" header="Nombre">
+                <template #body>
+                    <SkeletonComponent />
+                </template>
+            </ColumnTable>
+            <ColumnTable field="documento" header="Cedula">
+                <template #body>
+                    <SkeletonComponent />
+                </template>
+            </ColumnTable>
+            <ColumnTable field="matriculado" header="Matriculado">
+                <template #body>
+                    <SkeletonComponent />
+                </template>
+            </ColumnTable>
+        </DataTable>
 
-        <div class="card open-sans-card" v-for="moto in motos" :key="moto.id">
+        <DataTable v-show="!onLoading" :value="estudiantes" tableStyle="min-width: 50rem">
+
+            <ColumnTable field="id" header="ID">
+                <template #body="slotProps">
+                    <div v-show="!onLoading">
+                        {{ slotProps.data.id }}
+                    </div>
+                </template>
+
+            </ColumnTable>
+            <ColumnTable field="nombre" header="Nombre"></ColumnTable>
+            <ColumnTable field="documento" header="Cedula"></ColumnTable>
+            <ColumnTable field="matriculado" header="Matriculado">
+                <template #body="slotProps">
+                    <div v-if="slotProps.data.matriculado == 1">
+                        <BadgeComponent severity="success">MATRICULADO</BadgeComponent>
+                    </div>
+                    <div v-else>
+                        <BadgeComponent severity="danger">SIN MATRICULA</BadgeComponent>
+                    </div>
+                </template>
+            </ColumnTable>
+            <!-- <ColumnTable field="id" header="ID">
+                <template #body>
+                    {{ id }}
+                   
+                </template>
+</ColumnTable>
+<ColumnTable field="nombre" header="Nombre">
+    <template #body>
+                    {{ nombre }}
+                    
+                </template>
+</ColumnTable>
+<ColumnTable field="matriculado" header="Matriculado">
+    <template #body>
+
+                </template>
+</ColumnTable>
+<ColumnTable field="documento" header="Documento">
+    <template #body>
+
+                </template>
+</ColumnTable> -->
+        </DataTable>
+
+        <!-- <div class="card open-sans-card" v-for="moto in motos" :key="moto.id">
             <img class="image-card" :src="moto.imagen" alt="">
             <h3 class="name-course">{{ moto.nombre }}</h3>
             <div class="detail-course">
@@ -28,7 +85,7 @@
                 </button>
             </div>
 
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -170,7 +227,32 @@ export default {
                 },
             ],
 
-            motos: [],
+            estudiantes: [],
+            skeleton: [
+                {
+                    "id": "",
+                    "documento": " ",
+                    "nombre": "",
+                    "matriculado": "",
+                    "imagen": ""
+                },
+                {
+                    "id": "",
+                    "documento": " ",
+                    "nombre": "",
+                    "matriculado": "",
+                    "imagen": ""
+                },
+                {
+                    "id": "",
+                    "documento": " ",
+                    "nombre": "",
+                    "matriculado": "",
+                    "imagen": ""
+                },
+            ],
+
+            onLoading: true,
         };
 
 
@@ -182,13 +264,20 @@ export default {
             this.$router.push({ name: 'CursoView', params: { id: curso.id } })
         },
 
-        consumirAPI: function () {
-            this.axios.get('https://cobuses.com.co/APIV2/model/getmotos.php')
+
+        consumirAPI: async function () {
+
+            this.onLoading = true;
+
+            await this.axios.get('https://cobuses.com.co/APIV2/model/getmotos.php?dato=getallestudiantes')
                 .then(response => {
-                    this.motos = response.data; 
-                    console.log(this.motos);
+                    this.estudiantes = response.data;
+                    console.log(this.estudiantes);
                 })
-                .catch(error => console.log(error));
+                .catch(error => console.log(error))
+                .finally(() => {
+                    this.onLoading = false;
+                });
         }
     },
     created() {
@@ -206,7 +295,7 @@ export default {
     width: 90%;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-ColumnTables: 1fr 1fr 1fr 1fr;
     gap: 2rem;
     padding: 1.5rem 0;
 }
@@ -216,7 +305,7 @@ export default {
 
     height: 320px;
     display: flex;
-    flex-direction: column;
+    flex-direction: ColumnTable;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
