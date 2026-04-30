@@ -5,6 +5,9 @@ import InicioView from '../views/InicioView.vue'
 import AboutView from '../views/AboutView.vue'
 import CotizaView from '../views/CotizaView.vue'
 import CursoView from '../views/CursoView.vue'
+import AllVuelosView from '../views/AllVuelosView.vue'
+import LoginView from '../views/LoginView.vue'
+import ReservarView from '../views/ReservarView.vue'
 
 const routes = [
   {
@@ -32,6 +35,21 @@ const routes = [
     path: '/cotizar',
     name: 'cotizar',
     component: CotizaView
+  },
+  {
+    path: '/get-vuelos',
+    name: 'get-vuelos',
+    component: AllVuelosView
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
+  },
+  {
+    path: '/reservar',
+    name: 'reservar',
+    component: ReservarView
   },
 ]
 

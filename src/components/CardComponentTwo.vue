@@ -252,7 +252,13 @@ export default {
                 },
             ],
 
-            onLoading: true,
+            onLoading: false,
+
+            vuelos: [],
+            misVuelos: [],
+            token: null,
+            documentoUsuario: null,
+            apiUrl: 'https://cobuses.com.co/APIV2/model/viajeros.php'
         };
 
 
@@ -264,11 +270,8 @@ export default {
             this.$router.push({ name: 'CursoView', params: { id: curso.id } })
         },
 
-
         consumirAPI: async function () {
-
             this.onLoading = true;
-
             await this.axios.get('https://cobuses.com.co/APIV2/model/getmotos.php?dato=getallestudiantes')
                 .then(response => {
                     this.estudiantes = response.data;
@@ -278,12 +281,110 @@ export default {
                 .finally(() => {
                     this.onLoading = false;
                 });
+        },
+
+        async fetchVuelos() {
+            try {
+                const response = await this.axios.get(`${this.apiUrl}?endpoint=vuelos`);
+                if (response.data.status === 'success') {
+                    this.vuelos = response.data.data;
+                    console.log('Vuelos cargados:', this.vuelos);
+                }
+            } catch (error) {
+                console.error('Error al cargar vuelos:', error);
+            }
+        },
+
+        async login(documento, clave) {
+            try {
+                const response = await this.axios.post(`${this.apiUrl}?endpoint=login`, {
+                    documento: documento,
+                    clave: clave
+                });
+
+                if (response.data.status === 'success') {
+                    this.token = response.data.token;
+                    this.documentoUsuario = response.data.viajero.documento;
+                    localStorage.setItem("token", response.data.token);
+                    localStorage.setItem("documento", response.data.viajero.documento);
+                    console.log('Login exitoso. Token:', this.token);
+                    alert(`Bienvenido, ${response.data.viajero.nombre}`);
+                }
+            } catch (error) {
+                console.error('Error en autenticación:', error.response?.data?.message || error);
+                alert('Credenciales incorrectas');
+            }
+        },
+
+        async reservarVuelo(vueloId) {
+            this.token = localStorage.getItem("token");
+            this.documentoUsuario = localStorage.getItem("documento");
+
+            if (!this.token || !this.documentoUsuario) {
+                alert('Debes iniciar sesión para reservar un vuelo.');
+                return;
+            }
+
+            try {
+                const response = await this.axios.post(
+                    `${this.apiUrl}?endpoint=reservar`,
+                    {
+                        documento: this.documentoUsuario,
+                        vuelo_id: vueloId
+                    },
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${this.token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+
+                if (response.data.status === 'success') {
+                    alert('¡Reserva realizada con éxito!');
+                }
+            } catch (error) {
+                console.error('Error al reservar:', error.response?.data?.message || error);
+                alert(error.response?.data?.message || 'Error al procesar la reserva');
+            }
+        },
+
+        async getMisVuelos() {
+            this.token = localStorage.getItem("token");
+            this.documentoUsuario = localStorage.getItem("documento");
+
+
+            try {
+                console.log(this.documentoUsuario);
+
+                const response = await this.axios.get(
+                    `${this.apiUrl}?endpoint=misreservas&documento=${this.documentoUsuario}`
+                );
+
+                if (response.data.status === 'success') {
+
+                    this.misVuelos = response.data.data;
+                    console.log('Vuelos cargados:', this.misVuelos);
+                }
+            } catch (error) {
+                console.error('Error al ver mis vuelos:', error.response?.data?.message || error);
+                alert(error.response?.data?.message || 'Error al ver mis vuelos');
+            }
         }
+
+
+
     },
     created() {
         console.log("CONSULTANDO API ... ");
-        this.consumirAPI();
+        //this.consumirAPI();
         //console.log(this.courses);
+        //this.fetchVuelos();
+        this.login("1083574087", "1083574087");
+
+         this.getMisVuelos();
+        //this.reservarVuelo(1);
+        
         console.log("CONSULTA TERMINADA ");
     }
 }
